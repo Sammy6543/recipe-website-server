@@ -5,6 +5,10 @@ const jwt = require('jsonwebtoken')
 
 // register user
 const userRegister = async (req, res) => {
+    console.log("req.body", req.body);
+    console.log("req.file", req.file);
+
+
     const userData = req.body;
     const { username, email, password } = userData
 
@@ -25,7 +29,8 @@ const userRegister = async (req, res) => {
         const newUser = new User({
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            profilePicture: req.file.cloudinaryUrl,
         })
 
         await newUser.save();
@@ -34,7 +39,8 @@ const userRegister = async (req, res) => {
             msg: "User Registerd Successfully", success: true, user: {
                 id: newUser._id,
                 username: newUser.username,
-                email: newUser.email
+                email: newUser.email,
+                profilePicture: req.file.cloudinaryUrl,
             }
         });
 
@@ -79,7 +85,8 @@ const userLogin = async (req, res) => {
             user: {
                 id: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                profilePicture: user.profilePicture,
             }
         })
 
